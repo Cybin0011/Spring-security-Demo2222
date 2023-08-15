@@ -54,7 +54,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             throw new RuntimeException("用户未登录");
         }
 //        3.把用户名信息封装到authentication,存这里就会对用户标记为通过了认证
-//        TODO 获取权限信息并封装到Authentication
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
 //        4.把改authentication存入SecurityHolder里
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);

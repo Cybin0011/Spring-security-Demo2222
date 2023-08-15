@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -57,9 +56,9 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
                 // 对于登录接口 允许匿名访问,不需要走认证过滤器
 //                .antMatchers("/hello").permitAll()
                 .antMatchers("/user/login").anonymous()
-                .antMatchers("/hello2").hasAuthority("system:test:index")
+//                .antMatchers("/hello2").hasAuthority("system:test:index")
                 // 除上面外的所有请求全部需要鉴权认证
-                .anyRequest().authenticated();
+                .anyRequest().access("@Pex.hasPermission(request)");
         http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
         http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
                 .accessDeniedHandler(accessDeniedHandler);
